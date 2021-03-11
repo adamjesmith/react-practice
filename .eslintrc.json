@@ -28,5 +28,8 @@
     "react": {
       "version": "detect"
     }
-  }
+  },
+  "presets": [
+    "plugin:react-hooks/recommended"
+  ]
 }

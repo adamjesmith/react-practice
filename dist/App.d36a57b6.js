@@ -30981,7 +30981,7 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react-jsx-runtime.development.js');
 }
-},{"./cjs/react-jsx-runtime.development.js":"../node_modules/react/cjs/react-jsx-runtime.development.js"}],"Pet.js":[function(require,module,exports) {
+},{"./cjs/react-jsx-runtime.development.js":"../node_modules/react/cjs/react-jsx-runtime.development.js"}],"SearchParams.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30989,37 +30989,49 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _react = require("react");
+
 var _jsxRuntime = require("react/jsx-runtime");
 
-const Pet = props => {
+const SearchParams = () => {
+  const [location, updateLocation] = (0, _react.useState)("Seattle, WA");
   return (
     /*#__PURE__*/
-    (0, _jsxRuntime.jsxs)("div", {
-      children: [
+    (0, _jsxRuntime.jsx)("div", {
+      className: "search-params",
+      children:
       /*#__PURE__*/
-      (0, _jsxRuntime.jsx)("h1", {
-        children: props.name
-      }),
-      /*#__PURE__*/
-      (0, _jsxRuntime.jsx)("h2", {
-        children: props.animal
-      }),
-      /*#__PURE__*/
-      (0, _jsxRuntime.jsx)("h2", {
-        children: props.breed
-      })]
+      (0, _jsxRuntime.jsxs)("form", {
+        children: [
+        /*#__PURE__*/
+        (0, _jsxRuntime.jsxs)("label", {
+          htmlFor: "location",
+          children: ["Location",
+          /*#__PURE__*/
+          (0, _jsxRuntime.jsx)("input", {
+            id: "location",
+            value: location,
+            placeholder: "Location",
+            onChange: e => updateLocation(e.target.value)
+          }), ";"]
+        }),
+        /*#__PURE__*/
+        (0, _jsxRuntime.jsx)("button", {
+          children: "Submit"
+        })]
+      })
     })
   );
 };
 
-var _default = Pet;
+var _default = SearchParams;
 exports.default = _default;
-},{"react/jsx-runtime":"../node_modules/react/jsx-runtime.js"}],"App.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react/jsx-runtime":"../node_modules/react/jsx-runtime.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 var _reactDom = require("react-dom");
 
-var _Pet = _interopRequireDefault(require("./Pet"));
+var _SearchParams = _interopRequireDefault(require("./SearchParams"));
 
 var _jsxRuntime = require("react/jsx-runtime");
 
@@ -31035,23 +31047,7 @@ const App = () => {
         children: "Adopt Me!"
       }),
       /*#__PURE__*/
-      (0, _jsxRuntime.jsx)(_Pet.default, {
-        name: "Luna",
-        animal: "dog",
-        breed: "Havanese"
-      }),
-      /*#__PURE__*/
-      (0, _jsxRuntime.jsx)(_Pet.default, {
-        name: "Pepper",
-        animal: "bird",
-        breed: "Cockatiel"
-      }),
-      /*#__PURE__*/
-      (0, _jsxRuntime.jsx)(_Pet.default, {
-        name: "Doink",
-        animal: "cat",
-        breed: "Mix"
-      })]
+      (0, _jsxRuntime.jsx)(_SearchParams.default, {})]
     })
   );
 };
@@ -31059,7 +31055,7 @@ const App = () => {
 (0, _reactDom.render)(
 /*#__PURE__*/
 (0, _jsxRuntime.jsx)(App, {}), document.getElementById("root"));
-},{"react-dom":"../node_modules/react-dom/index.js","./Pet":"Pet.js","react/jsx-runtime":"../node_modules/react/jsx-runtime.js"}],"../node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react-dom":"../node_modules/react-dom/index.js","./SearchParams":"SearchParams.js","react/jsx-runtime":"../node_modules/react/jsx-runtime.js"}],"../node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -31087,7 +31083,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51200" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56791" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
