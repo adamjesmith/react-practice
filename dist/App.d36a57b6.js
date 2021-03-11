@@ -30981,7 +30981,40 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react-jsx-runtime.development.js');
 }
-},{"./cjs/react-jsx-runtime.development.js":"../node_modules/react/cjs/react-jsx-runtime.development.js"}],"SearchParams.js":[function(require,module,exports) {
+},{"./cjs/react-jsx-runtime.development.js":"../node_modules/react/cjs/react-jsx-runtime.development.js"}],"Pet.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _jsxRuntime = require("react/jsx-runtime");
+
+const Pet = props => {
+  return (
+    /*#__PURE__*/
+    (0, _jsxRuntime.jsxs)("div", {
+      children: [
+      /*#__PURE__*/
+      (0, _jsxRuntime.jsx)("h1", {
+        children: props.name
+      }),
+      /*#__PURE__*/
+      (0, _jsxRuntime.jsx)("h2", {
+        children: props.animal
+      }),
+      /*#__PURE__*/
+      (0, _jsxRuntime.jsx)("h2", {
+        children: props.breed
+      })]
+    })
+  );
+};
+
+var _default = Pet;
+exports.default = _default;
+},{"react/jsx-runtime":"../node_modules/react/jsx-runtime.js"}],"SearchParams.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30991,15 +31024,35 @@ exports.default = void 0;
 
 var _react = require("react");
 
+var _Pet = _interopRequireDefault(require("./Pet"));
+
 var _jsxRuntime = require("react/jsx-runtime");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const ANIMALS = ["bird", "cat", "dog", "rabbit", "reptile"];
 
 const SearchParams = () => {
   const [location, updateLocation] = (0, _react.useState)("Seattle, WA");
+  const [animal, updateAnimal] = (0, _react.useState)("");
+  const [breed, updateBreed] = (0, _react.useState)("");
+  const breeds = [];
+  const [pets, setPets] = (0, _react.useState)([]);
+  (0, _react.useEffect)(() => {
+    requestPets();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  async function requestPets() {
+    const res = await fetch(`http://pets-v2.dev-apis.com/pets?animal=${animal}&location=${location}&breed=${breed}`);
+    const json = await res.json();
+    setPets(json.pets);
+  }
+
   return (
     /*#__PURE__*/
-    (0, _jsxRuntime.jsx)("div", {
+    (0, _jsxRuntime.jsxs)("div", {
       className: "search-params",
-      children:
+      children: [
       /*#__PURE__*/
       (0, _jsxRuntime.jsxs)("form", {
         children: [
@@ -31013,20 +31066,67 @@ const SearchParams = () => {
             value: location,
             placeholder: "Location",
             onChange: e => updateLocation(e.target.value)
-          }), ";"]
+          })]
+        }),
+        /*#__PURE__*/
+        (0, _jsxRuntime.jsxs)("label", {
+          htmlFor: "animal",
+          children: ["Animal",
+          /*#__PURE__*/
+          (0, _jsxRuntime.jsxs)("select", {
+            id: "animal",
+            value: animal,
+            onChange: e => updateAnimal(e.target.value),
+            onBlur: e => updateAnimal(e.target.value),
+            children: [
+            /*#__PURE__*/
+            (0, _jsxRuntime.jsx)("option", {}), ANIMALS.map(animal =>
+            /*#__PURE__*/
+            (0, _jsxRuntime.jsx)("option", {
+              value: animal,
+              children: animal
+            }, animal))]
+          })]
+        }),
+        /*#__PURE__*/
+        (0, _jsxRuntime.jsxs)("label", {
+          htmlFor: "breed",
+          children: ["Breed",
+          /*#__PURE__*/
+          (0, _jsxRuntime.jsxs)("select", {
+            disabled: !breeds.length,
+            id: "breed",
+            value: breed,
+            onChange: e => updateBreed(e.target.value),
+            onBlur: e => updateBreed(e.target.value),
+            children: [
+            /*#__PURE__*/
+            (0, _jsxRuntime.jsx)("option", {}), breeds.map(breed =>
+            /*#__PURE__*/
+            (0, _jsxRuntime.jsx)("option", {
+              value: breed,
+              children: breed
+            }, breed))]
+          })]
         }),
         /*#__PURE__*/
         (0, _jsxRuntime.jsx)("button", {
           children: "Submit"
         })]
-      })
+      }), pets.map(pet =>
+      /*#__PURE__*/
+      (0, _jsxRuntime.jsx)(_Pet.default, {
+        name: pet.name,
+        animal: pet.animal,
+        breed: pet.breed
+      }, pet.id))]
     })
   );
 };
 
 var _default = SearchParams;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react/jsx-runtime":"../node_modules/react/jsx-runtime.js"}],"App.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./Pet":"Pet.js","react/jsx-runtime":"../node_modules/react/jsx-runtime.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 var _reactDom = require("react-dom");
