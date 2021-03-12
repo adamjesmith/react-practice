@@ -8,9 +8,9 @@ const App = () => {
   return (
     <div>
       <Router>
-      <header>
-        <Link to="/">Adopt Me!</Link>
-      </header>
+        <header>
+          <Link to="/">Adopt Me!</Link>
+        </header>
         <Switch>
           <Route path="/details/:id">
             <Details />
