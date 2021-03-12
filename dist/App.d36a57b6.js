@@ -30992,21 +30992,48 @@ exports.default = void 0;
 var _jsxRuntime = require("react/jsx-runtime");
 
 const Pet = props => {
+  const {
+    name,
+    animal,
+    breed,
+    images,
+    location,
+    id
+  } = props;
+  let hero = "http://pets-images.dev-apis.com/pets/none.jpg";
+
+  if (images.length) {
+    hero = images[0];
+  }
+
   return (
     /*#__PURE__*/
-    (0, _jsxRuntime.jsxs)("div", {
+    (0, _jsxRuntime.jsxs)("a", {
+      href: `/details/${id}`,
+      className: "pet",
       children: [
       /*#__PURE__*/
-      (0, _jsxRuntime.jsx)("h1", {
-        children: props.name
+      (0, _jsxRuntime.jsx)("div", {
+        className: "image-container",
+        children:
+        /*#__PURE__*/
+        (0, _jsxRuntime.jsx)("img", {
+          src: hero,
+          alt: name
+        })
       }),
       /*#__PURE__*/
-      (0, _jsxRuntime.jsx)("h2", {
-        children: props.animal
-      }),
-      /*#__PURE__*/
-      (0, _jsxRuntime.jsx)("h2", {
-        children: props.breed
+      (0, _jsxRuntime.jsxs)("div", {
+        className: "info",
+        children: [
+        /*#__PURE__*/
+        (0, _jsxRuntime.jsx)("h1", {
+          children: name
+        }),
+        /*#__PURE__*/
+        (0, _jsxRuntime.jsx)("h2", {
+          children: `${animal} — ${breed} — ${location}`
+        })]
       })]
     })
   );
@@ -31014,7 +31041,51 @@ const Pet = props => {
 
 var _default = Pet;
 exports.default = _default;
-},{"react/jsx-runtime":"../node_modules/react/jsx-runtime.js"}],"useBreedList.js":[function(require,module,exports) {
+},{"react/jsx-runtime":"../node_modules/react/jsx-runtime.js"}],"Results.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _Pet = _interopRequireDefault(require("./Pet"));
+
+var _jsxRuntime = require("react/jsx-runtime");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const Results = ({
+  pets
+}) => {
+  return (
+    /*#__PURE__*/
+    (0, _jsxRuntime.jsx)("div", {
+      className: "search",
+      children: !pets.length ?
+      /*#__PURE__*/
+      (0, _jsxRuntime.jsx)("h1", {
+        children: "No Pets Found"
+      }) : pets.map(pet => {
+        return (
+          /*#__PURE__*/
+          (0, _jsxRuntime.jsx)(_Pet.default, {
+            animal: pet.animal,
+            name: pet.name,
+            breed: pet.breed,
+            images: pet.images,
+            location: `${pet.city}, ${pet.state}`,
+            id: pet.id
+          }, pet.id)
+        );
+      })
+    })
+  );
+};
+
+var _default = Results;
+exports.default = _default;
+},{"./Pet":"Pet.js","react/jsx-runtime":"../node_modules/react/jsx-runtime.js"}],"useBreedList.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31060,7 +31131,7 @@ exports.default = void 0;
 
 var _react = require("react");
 
-var _Pet = _interopRequireDefault(require("./Pet"));
+var _Results = _interopRequireDefault(require("./Results"));
 
 var _useBreedList = _interopRequireDefault(require("./useBreedList"));
 
@@ -31155,25 +31226,25 @@ const SearchParams = () => {
         (0, _jsxRuntime.jsx)("button", {
           children: "Submit"
         })]
-      }), pets.map(pet =>
+      }),
       /*#__PURE__*/
-      (0, _jsxRuntime.jsx)(_Pet.default, {
-        name: pet.name,
-        animal: pet.animal,
-        breed: pet.breed
-      }, pet.id))]
+      (0, _jsxRuntime.jsx)(_Results.default, {
+        pets: pets
+      }), ";"]
     })
   );
 };
 
 var _default = SearchParams;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","./Pet":"Pet.js","./useBreedList":"useBreedList.js","react/jsx-runtime":"../node_modules/react/jsx-runtime.js"}],"App.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./Results":"Results.js","./useBreedList":"useBreedList.js","react/jsx-runtime":"../node_modules/react/jsx-runtime.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 var _reactDom = require("react-dom");
 
 var _SearchParams = _interopRequireDefault(require("./SearchParams"));
+
+var _react = require("react");
 
 var _jsxRuntime = require("react/jsx-runtime");
 
@@ -31196,8 +31267,12 @@ const App = () => {
 
 (0, _reactDom.render)(
 /*#__PURE__*/
-(0, _jsxRuntime.jsx)(App, {}), document.getElementById("root"));
-},{"react-dom":"../node_modules/react-dom/index.js","./SearchParams":"SearchParams.js","react/jsx-runtime":"../node_modules/react/jsx-runtime.js"}],"../node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+(0, _jsxRuntime.jsx)(_react.StrictMode, {
+  children:
+  /*#__PURE__*/
+  (0, _jsxRuntime.jsx)(App, {})
+}), document.getElementById("root"));
+},{"react-dom":"../node_modules/react-dom/index.js","./SearchParams":"SearchParams.js","react":"../node_modules/react/index.js","react/jsx-runtime":"../node_modules/react/jsx-runtime.js"}],"../node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
