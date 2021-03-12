@@ -35370,7 +35370,7 @@ const SearchParams = () => {
       /*#__PURE__*/
       (0, _jsxRuntime.jsx)(_Results.default, {
         pets: pets
-      }), ";"]
+      })]
     })
   );
 };
@@ -35429,8 +35429,13 @@ const App = () => {
       (0, _jsxRuntime.jsxs)(_reactRouterDom.BrowserRouter, {
         children: [
         /*#__PURE__*/
-        (0, _jsxRuntime.jsx)("h1", {
-          children: "Adopt Me!"
+        (0, _jsxRuntime.jsx)("header", {
+          children:
+          /*#__PURE__*/
+          (0, _jsxRuntime.jsx)(_reactRouterDom.Link, {
+            to: "/",
+            children: "Adopt Me!"
+          })
         }),
         /*#__PURE__*/
         (0, _jsxRuntime.jsxs)(_reactRouterDom.Switch, {
