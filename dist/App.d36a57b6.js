@@ -31014,7 +31014,43 @@ const Pet = props => {
 
 var _default = Pet;
 exports.default = _default;
-},{"react/jsx-runtime":"../node_modules/react/jsx-runtime.js"}],"SearchParams.js":[function(require,module,exports) {
+},{"react/jsx-runtime":"../node_modules/react/jsx-runtime.js"}],"useBreedList.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = useBreedList;
+
+var _react = require("react");
+
+const localCache = {};
+
+function useBreedList(animal) {
+  const [breedList, setBreedList] = (0, _react.useState)([]);
+  const [status, setStatus] = (0, _react.useState)("unloaded");
+  (0, _react.useEffect)(() => {
+    if (!animal) {
+      setBreedList([]);
+    } else if (localCache[animal]) {
+      setBreedList(localCache[animal]);
+    } else {
+      requestBreedList();
+    }
+
+    async function requestBreedList() {
+      setBreedList([]);
+      setStatus("loading");
+      const res = await fetch(`http://pets-v2.dev-apis.com/breeds?animal=${animal}`);
+      const json = await res.json();
+      localCache[animal] = json.breeds || [];
+      setBreedList(localCache[animal]);
+      setStatus("loaded");
+    }
+  }, [animal]);
+  return [breedList, status];
+}
+},{"react":"../node_modules/react/index.js"}],"SearchParams.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31026,6 +31062,8 @@ var _react = require("react");
 
 var _Pet = _interopRequireDefault(require("./Pet"));
 
+var _useBreedList = _interopRequireDefault(require("./useBreedList"));
+
 var _jsxRuntime = require("react/jsx-runtime");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -31036,7 +31074,7 @@ const SearchParams = () => {
   const [location, updateLocation] = (0, _react.useState)("Seattle, WA");
   const [animal, updateAnimal] = (0, _react.useState)("");
   const [breed, updateBreed] = (0, _react.useState)("");
-  const breeds = [];
+  const [breeds] = (0, _useBreedList.default)(animal);
   const [pets, setPets] = (0, _react.useState)([]);
   (0, _react.useEffect)(() => {
     requestPets();
@@ -31055,6 +31093,10 @@ const SearchParams = () => {
       children: [
       /*#__PURE__*/
       (0, _jsxRuntime.jsxs)("form", {
+        onSubmit: e => {
+          e.preventDefault();
+          requestPets();
+        },
         children: [
         /*#__PURE__*/
         (0, _jsxRuntime.jsxs)("label", {
@@ -31126,7 +31168,7 @@ const SearchParams = () => {
 
 var _default = SearchParams;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","./Pet":"Pet.js","react/jsx-runtime":"../node_modules/react/jsx-runtime.js"}],"App.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./Pet":"Pet.js","./useBreedList":"useBreedList.js","react/jsx-runtime":"../node_modules/react/jsx-runtime.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 var _reactDom = require("react-dom");
@@ -31183,7 +31225,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56791" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50727" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
