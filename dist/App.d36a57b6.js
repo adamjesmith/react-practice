@@ -35431,7 +35431,34 @@ class Details extends _react.Component {
           /*#__PURE__*/
           (0, _jsxRuntime.jsx)("p", {
             children: description
-          })]
+          }), showModal ?
+          /*#__PURE__*/
+          (0, _jsxRuntime.jsx)(_Modal.default, {
+            children:
+            /*#__PURE__*/
+            (0, _jsxRuntime.jsxs)("div", {
+              children: [
+              /*#__PURE__*/
+              (0, _jsxRuntime.jsxs)("h1", {
+                children: ["Would you like to adopt ", name, "?"]
+              }),
+              /*#__PURE__*/
+              (0, _jsxRuntime.jsxs)("div", {
+                className: "buttons",
+                children: [
+                /*#__PURE__*/
+                (0, _jsxRuntime.jsx)("button", {
+                  onClick: this.adopt,
+                  children: "Yes"
+                }),
+                /*#__PURE__*/
+                (0, _jsxRuntime.jsx)("button", {
+                  onClick: this.toggleModal,
+                  children: "No"
+                })]
+              })]
+            })
+          }) : null]
         })]
       })
     );
@@ -35626,6 +35653,7 @@ const SearchParams = () => {
   const [animal, updateAnimal] = (0, _react.useState)("");
   const [breed, updateBreed] = (0, _react.useState)("");
   const [breeds] = (0, _useBreedList.default)(animal);
+  const [page, setPage] = (0, _react.useState)(0);
   const [pets, setPets] = (0, _react.useState)([]);
   const [theme, setTheme] = (0, _react.useContext)(_ThemeContext.default);
   (0, _react.useEffect)(() => {
@@ -35633,7 +35661,7 @@ const SearchParams = () => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function requestPets() {
-    const res = await fetch(`http://pets-v2.dev-apis.com/pets?animal=${animal}&location=${location}&breed=${breed}`);
+    const res = await fetch(`http://pets-v2.dev-apis.com/pets?animal=${animal}&location=${location}&breed=${breed}&page=${page}`);
     const json = await res.json();
     setPets(json.pets);
   }
