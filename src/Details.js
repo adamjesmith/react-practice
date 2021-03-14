@@ -3,10 +3,11 @@ import { withRouter } from "react-router-dom";
 
 import Carousel from "./Carousel";
 import ErrorBoundary from "./ErrorBoundary";
+import Modal from "./Modal";
 import ThemeContext from "./ThemeContext";
 
 class Details extends Component {
-  state = { loading: true };
+  state = { loading: true, showModal: false };
 
   async componentDidMount() {
     const res = await fetch(
@@ -15,6 +16,9 @@ class Details extends Component {
     const json = await res.json();
     this.setState(Object.assign({ loading: false }, json.pets[0]));
   }
+
+  toggleModal = () => this.setState({ showModal: !this.state.showModal });
+  adopt = () => (window.location = "http://bit.ly/pet-adopt");
 
   render() {
     console.log(this.state);
@@ -31,6 +35,7 @@ class Details extends Component {
       description,
       name,
       images,
+      showModal,
     } = this.state;
 
     return (
@@ -41,7 +46,9 @@ class Details extends Component {
           <h2>{`${animal} — ${breed} — ${city}, ${state}`}</h2>
           <ThemeContext.Consumer>
             {([theme]) => (
-              <button style={{ backgroundColor: theme }}>Adopt {name}</button>
+              <button onClick={this.toggleModal} style={{ backgroundColor: theme }}>
+              Adopt {name}
+            </button>
             )}
           </ThemeContext.Consumer>
           <p>{description}</p>
