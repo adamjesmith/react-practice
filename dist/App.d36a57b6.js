@@ -33910,7 +33910,22 @@ if ("development" !== "production") {
     style: _propTypes.default.object
   });
 }
-},{"react-router":"../node_modules/react-router/esm/react-router.js","@babel/runtime/helpers/esm/inheritsLoose":"../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","react":"../node_modules/react/index.js","history":"../node_modules/history/esm/history.js","prop-types":"../node_modules/prop-types/index.js","tiny-warning":"../node_modules/tiny-warning/dist/tiny-warning.esm.js","@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","tiny-invariant":"../node_modules/tiny-invariant/dist/tiny-invariant.esm.js"}],"../node_modules/react/cjs/react-jsx-runtime.development.js":[function(require,module,exports) {
+},{"react-router":"../node_modules/react-router/esm/react-router.js","@babel/runtime/helpers/esm/inheritsLoose":"../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","react":"../node_modules/react/index.js","history":"../node_modules/history/esm/history.js","prop-types":"../node_modules/prop-types/index.js","tiny-warning":"../node_modules/tiny-warning/dist/tiny-warning.esm.js","@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","tiny-invariant":"../node_modules/tiny-invariant/dist/tiny-invariant.esm.js"}],"ThemeContext.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = require("react");
+
+const ThemeContext =
+/*#__PURE__*/
+(0, _react.createContext)(["green", () => {}]);
+var _default = ThemeContext;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"../node_modules/react/cjs/react-jsx-runtime.development.js":[function(require,module,exports) {
 /** @license React v17.0.1
  * react-jsx-runtime.development.js
  *
@@ -35119,686 +35134,142 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react-jsx-runtime.development.js');
 }
-},{"./cjs/react-jsx-runtime.development.js":"../node_modules/react/cjs/react-jsx-runtime.development.js"}],"Carousel.js":[function(require,module,exports) {
-"use strict";
+},{"./cjs/react-jsx-runtime.development.js":"../node_modules/react/cjs/react-jsx-runtime.development.js"}],"../node_modules/parcel/src/builtins/bundle-url.js":[function(require,module,exports) {
+var bundleURL = null;
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
+  }
 
-var _react = require("react");
+  return bundleURL;
+}
 
-var _jsxRuntime = require("react/jsx-runtime");
+function getBundleURL() {
+  // Attempt to find the URL of the current script and use that as the base URL
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
+  }
 
-class Carousel extends _react.Component {
-  constructor(...args) {
-    super(...args);
+  return '/';
+}
 
-    _defineProperty(this, "state", {
-      active: 0
-    });
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)\/[^/]+$/, '$1') + '/';
+}
 
-    _defineProperty(this, "handleIndexClick", event => {
-      this.setState({
-        active: +event.target.dataset.index
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+},{}],"../node_modules/parcel/src/builtins/bundle-loader.js":[function(require,module,exports) {
+var getBundleURL = require('./bundle-url').getBundleURL;
+
+function loadBundlesLazy(bundles) {
+  if (!Array.isArray(bundles)) {
+    bundles = [bundles];
+  }
+
+  var id = bundles[bundles.length - 1];
+
+  try {
+    return Promise.resolve(require(id));
+  } catch (err) {
+    if (err.code === 'MODULE_NOT_FOUND') {
+      return new LazyPromise(function (resolve, reject) {
+        loadBundles(bundles.slice(0, -1)).then(function () {
+          return require(id);
+        }).then(resolve, reject);
       });
-    });
-  }
+    }
 
-  render() {
-    const {
-      active
-    } = this.state;
-    const {
-      images
-    } = this.props;
-    return (
-      /*#__PURE__*/
-      (0, _jsxRuntime.jsxs)("div", {
-        className: "carousel",
-        children: [
-        /*#__PURE__*/
-        (0, _jsxRuntime.jsx)("img", {
-          src: images[active],
-          alt: "animal"
-        }),
-        /*#__PURE__*/
-        (0, _jsxRuntime.jsx)("div", {
-          className: "carousel-smaller",
-          children: images.map((photo, index) =>
-          /*#__PURE__*/
-          // eslint-disable-next-line
-          (0, _jsxRuntime.jsx)("img", {
-            onClick: this.handleIndexClick,
-            "data-index": index,
-            src: photo,
-            className: index === active ? "active" : "",
-            alt: "animal thumbnail"
-          }, photo))
-        })]
-      })
-    );
+    throw err;
   }
-
 }
 
-_defineProperty(Carousel, "defaultProps", {
-  images: ["http://pets-images.dev-apis.com/pets/none.jpg"]
-});
+function loadBundles(bundles) {
+  return Promise.all(bundles.map(loadBundle));
+}
 
-var _default = Carousel;
-exports.default = _default;
-},{"react":"../node_modules/react/index.js","react/jsx-runtime":"../node_modules/react/jsx-runtime.js"}],"ErrorBoundary.js":[function(require,module,exports) {
+var bundleLoaders = {};
+
+function registerBundleLoader(type, loader) {
+  bundleLoaders[type] = loader;
+}
+
+module.exports = exports = loadBundlesLazy;
+exports.load = loadBundles;
+exports.register = registerBundleLoader;
+var bundles = {};
+
+function loadBundle(bundle) {
+  var id;
+
+  if (Array.isArray(bundle)) {
+    id = bundle[1];
+    bundle = bundle[0];
+  }
+
+  if (bundles[bundle]) {
+    return bundles[bundle];
+  }
+
+  var type = (bundle.substring(bundle.lastIndexOf('.') + 1, bundle.length) || bundle).toLowerCase();
+  var bundleLoader = bundleLoaders[type];
+
+  if (bundleLoader) {
+    return bundles[bundle] = bundleLoader(getBundleURL() + bundle).then(function (resolved) {
+      if (resolved) {
+        module.bundle.register(id, resolved);
+      }
+
+      return resolved;
+    }).catch(function (e) {
+      delete bundles[bundle];
+      throw e;
+    });
+  }
+}
+
+function LazyPromise(executor) {
+  this.executor = executor;
+  this.promise = null;
+}
+
+LazyPromise.prototype.then = function (onSuccess, onError) {
+  if (this.promise === null) this.promise = new Promise(this.executor);
+  return this.promise.then(onSuccess, onError);
+};
+
+LazyPromise.prototype.catch = function (onError) {
+  if (this.promise === null) this.promise = new Promise(this.executor);
+  return this.promise.catch(onError);
+};
+},{"./bundle-url":"../node_modules/parcel/src/builtins/bundle-url.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
+var _reactDom = require("react-dom");
 
 var _react = require("react");
 
 var _reactRouterDom = require("react-router-dom");
 
-var _jsxRuntime = require("react/jsx-runtime");
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-class ErrorBoundary extends _react.Component {
-  constructor(...args) {
-    super(...args);
-
-    _defineProperty(this, "state", {
-      hasError: false
-    });
-  }
-
-  static getDerivedStateFromError() {
-    return {
-      hasError: true,
-      redirect: false
-    };
-  }
-
-  componentDidCatch(error, info) {
-    console.error("ErrorBoundary caught an error", error, info);
-  }
-
-  componentDidUpdate() {
-    if (this.state.hasError) {
-      setTimeout(() => this.setState({
-        redirect: true
-      }), 5000);
-    }
-  }
-
-  render() {
-    if (this.state.redirect) {
-      return (
-        /*#__PURE__*/
-        (0, _jsxRuntime.jsx)(_reactRouterDom.Redirect, {
-          to: "/"
-        })
-      );
-    } else if (this.state.hasError) {
-      return (
-        /*#__PURE__*/
-        (0, _jsxRuntime.jsxs)("h2", {
-          children: ["There was an error with this listing. ",
-          /*#__PURE__*/
-          (0, _jsxRuntime.jsx)(_reactRouterDom.Link, {
-            to: "/",
-            children: "Click here"
-          }), " ", "to back to the home page or wait five seconds."]
-        })
-      );
-    }
-
-    return this.props.children;
-  }
-
-}
-
-var _default = ErrorBoundary;
-exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react/jsx-runtime":"../node_modules/react/jsx-runtime.js"}],"Modal.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireWildcard(require("react"));
-
-var _reactDom = require("react-dom");
+var _ThemeContext = _interopRequireDefault(require("./ThemeContext"));
 
 var _jsxRuntime = require("react/jsx-runtime");
 
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-const modalRoot = document.getElementById("modal");
-
-const Modal = ({
-  children
-}) => {
-  const elRef = (0, _react.useRef)(null);
-
-  if (!elRef.current) {
-    elRef.current = document.createElement("div");
-  }
-
-  (0, _react.useEffect)(() => {
-    modalRoot.appendChild(elRef.current);
-    return () => modalRoot.removeChild(elRef.current);
-  }, []);
-  return (
-    /*#__PURE__*/
-    (0, _reactDom.createPortal)(
-    /*#__PURE__*/
-    (0, _jsxRuntime.jsx)("div", {
-      children: children
-    }), elRef.current)
-  );
-};
-
-var _default = Modal;
-exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","react/jsx-runtime":"../node_modules/react/jsx-runtime.js"}],"ThemeContext.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = require("react");
-
-const ThemeContext =
+const Details =
 /*#__PURE__*/
-(0, _react.createContext)(["green", () => {}]);
-var _default = ThemeContext;
-exports.default = _default;
-},{"react":"../node_modules/react/index.js"}],"Details.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = DetailsErrorBoundary;
-
-var _react = require("react");
-
-var _reactRouterDom = require("react-router-dom");
-
-var _Carousel = _interopRequireDefault(require("./Carousel"));
-
-var _ErrorBoundary = _interopRequireDefault(require("./ErrorBoundary"));
-
-var _Modal = _interopRequireDefault(require("./Modal"));
-
-var _ThemeContext = _interopRequireDefault(require("./ThemeContext"));
-
-var _jsxRuntime = require("react/jsx-runtime");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-class Details extends _react.Component {
-  constructor(...args) {
-    super(...args);
-
-    _defineProperty(this, "state", {
-      loading: true,
-      showModal: false
-    });
-
-    _defineProperty(this, "toggleModal", () => this.setState({
-      showModal: !this.state.showModal
-    }));
-
-    _defineProperty(this, "adopt", () => window.location = "http://bit.ly/pet-adopt");
-  }
-
-  async componentDidMount() {
-    const res = await fetch(`http://pets-v2.dev-apis.com/pets?id=${this.props.match.params.id}`);
-    const json = await res.json();
-    this.setState(Object.assign({
-      loading: false
-    }, json.pets[0]));
-  }
-
-  render() {
-    console.log(this.state);
-
-    if (this.state.loading) {
-      return (
-        /*#__PURE__*/
-        (0, _jsxRuntime.jsx)("h2", {
-          children: "loading \u2026 "
-        })
-      );
-    }
-
-    const {
-      animal,
-      breed,
-      city,
-      state,
-      description,
-      name,
-      images,
-      showModal
-    } = this.state;
-    return (
-      /*#__PURE__*/
-      (0, _jsxRuntime.jsxs)("div", {
-        className: "details",
-        children: [
-        /*#__PURE__*/
-        (0, _jsxRuntime.jsx)(_Carousel.default, {
-          images: images
-        }), ";",
-        /*#__PURE__*/
-        (0, _jsxRuntime.jsxs)("div", {
-          children: [
-          /*#__PURE__*/
-          (0, _jsxRuntime.jsx)("h1", {
-            children: name
-          }),
-          /*#__PURE__*/
-          (0, _jsxRuntime.jsx)("h2", {
-            children: `${animal} — ${breed} — ${city}, ${state}`
-          }),
-          /*#__PURE__*/
-          (0, _jsxRuntime.jsx)(_ThemeContext.default.Consumer, {
-            children: ([theme]) =>
-            /*#__PURE__*/
-            (0, _jsxRuntime.jsxs)("button", {
-              onClick: this.toggleModal,
-              style: {
-                backgroundColor: theme
-              },
-              children: ["Adopt ", name]
-            })
-          }),
-          /*#__PURE__*/
-          (0, _jsxRuntime.jsx)("p", {
-            children: description
-          }), showModal ?
-          /*#__PURE__*/
-          (0, _jsxRuntime.jsx)(_Modal.default, {
-            children:
-            /*#__PURE__*/
-            (0, _jsxRuntime.jsxs)("div", {
-              children: [
-              /*#__PURE__*/
-              (0, _jsxRuntime.jsxs)("h1", {
-                children: ["Would you like to adopt ", name, "?"]
-              }),
-              /*#__PURE__*/
-              (0, _jsxRuntime.jsxs)("div", {
-                className: "buttons",
-                children: [
-                /*#__PURE__*/
-                (0, _jsxRuntime.jsx)("button", {
-                  onClick: this.adopt,
-                  children: "Yes"
-                }),
-                /*#__PURE__*/
-                (0, _jsxRuntime.jsx)("button", {
-                  onClick: this.toggleModal,
-                  children: "No"
-                })]
-              })]
-            })
-          }) : null]
-        })]
-      })
-    );
-  }
-
-} // export default withRouter(Details);
-
-
-const DetailsWithRouter = (0, _reactRouterDom.withRouter)(Details);
-
-function DetailsErrorBoundary(props) {
-  return (
-    /*#__PURE__*/
-    (0, _jsxRuntime.jsx)(_ErrorBoundary.default, {
-      children:
-      /*#__PURE__*/
-      (0, _jsxRuntime.jsx)(DetailsWithRouter, { ...props
-      })
-    })
-  );
-}
-},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./Carousel":"Carousel.js","./ErrorBoundary":"ErrorBoundary.js","./Modal":"Modal.js","./ThemeContext":"ThemeContext.js","react/jsx-runtime":"../node_modules/react/jsx-runtime.js"}],"Pet.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _reactRouterDom = require("react-router-dom");
-
-var _jsxRuntime = require("react/jsx-runtime");
-
-const Pet = props => {
-  const {
-    name,
-    animal,
-    breed,
-    images,
-    location,
-    id
-  } = props;
-  let hero = "http://pets-images.dev-apis.com/pets/none.jpg";
-
-  if (images.length) {
-    hero = images[0];
-  }
-
-  return (
-    /*#__PURE__*/
-    (0, _jsxRuntime.jsxs)(_reactRouterDom.Link, {
-      to: `/details/${id}`,
-      className: "pet",
-      children: [
-      /*#__PURE__*/
-      (0, _jsxRuntime.jsx)("div", {
-        className: "image-container",
-        children:
-        /*#__PURE__*/
-        (0, _jsxRuntime.jsx)("img", {
-          src: hero,
-          alt: name
-        })
-      }),
-      /*#__PURE__*/
-      (0, _jsxRuntime.jsxs)("div", {
-        className: "info",
-        children: [
-        /*#__PURE__*/
-        (0, _jsxRuntime.jsx)("h1", {
-          children: name
-        }),
-        /*#__PURE__*/
-        (0, _jsxRuntime.jsx)("h2", {
-          children: `${animal} — ${breed} — ${location}`
-        })]
-      })]
-    })
-  );
-};
-
-var _default = Pet;
-exports.default = _default;
-},{"react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react/jsx-runtime":"../node_modules/react/jsx-runtime.js"}],"Results.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _Pet = _interopRequireDefault(require("./Pet"));
-
-var _jsxRuntime = require("react/jsx-runtime");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-const Results = ({
-  pets
-}) => {
-  return (
-    /*#__PURE__*/
-    (0, _jsxRuntime.jsx)("div", {
-      className: "search",
-      children: !pets.length ?
-      /*#__PURE__*/
-      (0, _jsxRuntime.jsx)("h1", {
-        children: "No Pets Found"
-      }) : pets.map(pet => {
-        return (
-          /*#__PURE__*/
-          (0, _jsxRuntime.jsx)(_Pet.default, {
-            animal: pet.animal,
-            name: pet.name,
-            breed: pet.breed,
-            images: pet.images,
-            location: `${pet.city}, ${pet.state}`,
-            id: pet.id
-          }, pet.id)
-        );
-      })
-    })
-  );
-};
-
-var _default = Results;
-exports.default = _default;
-},{"./Pet":"Pet.js","react/jsx-runtime":"../node_modules/react/jsx-runtime.js"}],"useBreedList.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = useBreedList;
-
-var _react = require("react");
-
-const localCache = {};
-
-function useBreedList(animal) {
-  const [breedList, setBreedList] = (0, _react.useState)([]);
-  const [status, setStatus] = (0, _react.useState)("unloaded");
-  (0, _react.useEffect)(() => {
-    if (!animal) {
-      setBreedList([]);
-    } else if (localCache[animal]) {
-      setBreedList(localCache[animal]);
-    } else {
-      requestBreedList();
-    }
-
-    async function requestBreedList() {
-      setBreedList([]);
-      setStatus("loading");
-      const res = await fetch(`http://pets-v2.dev-apis.com/breeds?animal=${animal}`);
-      const json = await res.json();
-      localCache[animal] = json.breeds || [];
-      setBreedList(localCache[animal]);
-      setStatus("loaded");
-    }
-  }, [animal]);
-  return [breedList, status];
-}
-},{"react":"../node_modules/react/index.js"}],"SearchParams.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireWildcard(require("react"));
-
-var _Results = _interopRequireDefault(require("./Results"));
-
-var _ThemeContext = _interopRequireDefault(require("./ThemeContext"));
-
-var _useBreedList = _interopRequireDefault(require("./useBreedList"));
-
-var _jsxRuntime = require("react/jsx-runtime");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-const ANIMALS = ["bird", "cat", "dog", "rabbit", "reptile"];
-
-const SearchParams = () => {
-  const [location, updateLocation] = (0, _react.useState)("Seattle, WA");
-  const [animal, updateAnimal] = (0, _react.useState)("");
-  const [breed, updateBreed] = (0, _react.useState)("");
-  const [breeds] = (0, _useBreedList.default)(animal);
-  const [page, setPage] = (0, _react.useState)(0);
-  const [pets, setPets] = (0, _react.useState)([]);
-  const [theme, setTheme] = (0, _react.useContext)(_ThemeContext.default);
-  (0, _react.useEffect)(() => {
-    requestPets();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  async function requestPets() {
-    const res = await fetch(`http://pets-v2.dev-apis.com/pets?animal=${animal}&location=${location}&breed=${breed}&page=${page}`);
-    const json = await res.json();
-    setPets(json.pets);
-  }
-
-  return (
-    /*#__PURE__*/
-    (0, _jsxRuntime.jsxs)("div", {
-      className: "search-params",
-      children: [
-      /*#__PURE__*/
-      (0, _jsxRuntime.jsxs)("form", {
-        onSubmit: e => {
-          e.preventDefault();
-          requestPets();
-        },
-        children: [
-        /*#__PURE__*/
-        (0, _jsxRuntime.jsxs)("label", {
-          htmlFor: "location",
-          children: ["Location",
-          /*#__PURE__*/
-          (0, _jsxRuntime.jsx)("input", {
-            id: "location",
-            value: location,
-            placeholder: "Location",
-            onChange: e => updateLocation(e.target.value)
-          })]
-        }),
-        /*#__PURE__*/
-        (0, _jsxRuntime.jsxs)("label", {
-          htmlFor: "animal",
-          children: ["Animal",
-          /*#__PURE__*/
-          (0, _jsxRuntime.jsxs)("select", {
-            id: "animal",
-            value: animal,
-            onChange: e => updateAnimal(e.target.value),
-            onBlur: e => updateAnimal(e.target.value),
-            children: [
-            /*#__PURE__*/
-            (0, _jsxRuntime.jsx)("option", {}), ANIMALS.map(animal =>
-            /*#__PURE__*/
-            (0, _jsxRuntime.jsx)("option", {
-              value: animal,
-              children: animal
-            }, animal))]
-          })]
-        }),
-        /*#__PURE__*/
-        (0, _jsxRuntime.jsxs)("label", {
-          htmlFor: "breed",
-          children: ["Breed",
-          /*#__PURE__*/
-          (0, _jsxRuntime.jsxs)("select", {
-            disabled: !breeds.length,
-            id: "breed",
-            value: breed,
-            onChange: e => updateBreed(e.target.value),
-            onBlur: e => updateBreed(e.target.value),
-            children: [
-            /*#__PURE__*/
-            (0, _jsxRuntime.jsx)("option", {}), breeds.map(breed =>
-            /*#__PURE__*/
-            (0, _jsxRuntime.jsx)("option", {
-              value: breed,
-              children: breed
-            }, breed))]
-          })]
-        }),
-        /*#__PURE__*/
-        (0, _jsxRuntime.jsxs)("label", {
-          htmlFor: "theme",
-          children: ["Theme",
-          /*#__PURE__*/
-          (0, _jsxRuntime.jsxs)("select", {
-            value: theme,
-            onChange: e => setTheme(e.target.value),
-            onBlur: e => setTheme(e.target.value),
-            children: [
-            /*#__PURE__*/
-            (0, _jsxRuntime.jsx)("option", {
-              value: "peru",
-              children: "Peru"
-            }),
-            /*#__PURE__*/
-            (0, _jsxRuntime.jsx)("option", {
-              value: "darkblue",
-              children: "Dark Blue"
-            }),
-            /*#__PURE__*/
-            (0, _jsxRuntime.jsx)("option", {
-              value: "chartreuse",
-              children: "Chartreuse"
-            }),
-            /*#__PURE__*/
-            (0, _jsxRuntime.jsx)("option", {
-              value: "mediumorchid",
-              children: "Medium Orchid"
-            })]
-          })]
-        }),
-        /*#__PURE__*/
-        (0, _jsxRuntime.jsx)("button", {
-          style: {
-            backgroundColor: theme
-          },
-          children: "Submit"
-        })]
-      }),
-      /*#__PURE__*/
-      (0, _jsxRuntime.jsx)(_Results.default, {
-        pets: pets
-      })]
-    })
-  );
-};
-
-var _default = SearchParams;
-exports.default = _default;
-},{"react":"../node_modules/react/index.js","./Results":"Results.js","./ThemeContext":"ThemeContext.js","./useBreedList":"useBreedList.js","react/jsx-runtime":"../node_modules/react/jsx-runtime.js"}],"App.js":[function(require,module,exports) {
-"use strict";
-
-var _reactDom = require("react-dom");
-
-var _react = require("react");
-
-var _reactRouterDom = require("react-router-dom");
-
-var _Details = _interopRequireDefault(require("./Details"));
-
-var _SearchParams = _interopRequireDefault(require("./SearchParams"));
-
-var _ThemeContext = _interopRequireDefault(require("./ThemeContext"));
-
-var _jsxRuntime = require("react/jsx-runtime");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+(0, _react.lazy)(() => require("_bundle_loader")(require.resolve("./Details")));
+const SearchParams =
+/*#__PURE__*/
+(0, _react.lazy)(() => require("_bundle_loader")(require.resolve("./SearchParams")));
 
 const App = () => {
   const theme = (0, _react.useState)("darkblue");
@@ -35811,35 +35282,44 @@ const App = () => {
       (0, _jsxRuntime.jsx)("div", {
         children:
         /*#__PURE__*/
-        (0, _jsxRuntime.jsxs)(_reactRouterDom.BrowserRouter, {
-          children: [
+        (0, _jsxRuntime.jsx)(_react.Suspense, {
+          fallback:
           /*#__PURE__*/
-          (0, _jsxRuntime.jsx)("header", {
-            children:
-            /*#__PURE__*/
-            (0, _jsxRuntime.jsx)(_reactRouterDom.Link, {
-              to: "/",
-              children: "Adopt Me!"
-            })
+          (0, _jsxRuntime.jsx)("h2", {
+            children: "loading route ..."
           }),
+          children:
           /*#__PURE__*/
-          (0, _jsxRuntime.jsxs)(_reactRouterDom.Switch, {
+          (0, _jsxRuntime.jsxs)(_reactRouterDom.BrowserRouter, {
             children: [
             /*#__PURE__*/
-            (0, _jsxRuntime.jsx)(_reactRouterDom.Route, {
-              path: "/details/:id",
+            (0, _jsxRuntime.jsx)("header", {
               children:
               /*#__PURE__*/
-              (0, _jsxRuntime.jsx)(_Details.default, {})
+              (0, _jsxRuntime.jsx)(_reactRouterDom.Link, {
+                to: "/",
+                children: "Adopt Me!"
+              })
             }),
             /*#__PURE__*/
-            (0, _jsxRuntime.jsx)(_reactRouterDom.Route, {
-              path: "/",
-              children:
+            (0, _jsxRuntime.jsxs)(_reactRouterDom.Switch, {
+              children: [
               /*#__PURE__*/
-              (0, _jsxRuntime.jsx)(_SearchParams.default, {})
+              (0, _jsxRuntime.jsx)(_reactRouterDom.Route, {
+                path: "/details/:id",
+                children:
+                /*#__PURE__*/
+                (0, _jsxRuntime.jsx)(Details, {})
+              }),
+              /*#__PURE__*/
+              (0, _jsxRuntime.jsx)(_reactRouterDom.Route, {
+                path: "/",
+                children:
+                /*#__PURE__*/
+                (0, _jsxRuntime.jsx)(SearchParams, {})
+              })]
             })]
-          })]
+          })
         })
       })
     })
@@ -35853,7 +35333,7 @@ const App = () => {
   /*#__PURE__*/
   (0, _jsxRuntime.jsx)(App, {})
 }), document.getElementById("root"));
-},{"react-dom":"../node_modules/react-dom/index.js","react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./Details":"Details.js","./SearchParams":"SearchParams.js","./ThemeContext":"ThemeContext.js","react/jsx-runtime":"../node_modules/react/jsx-runtime.js"}],"../node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react-dom":"../node_modules/react-dom/index.js","react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./ThemeContext":"ThemeContext.js","react/jsx-runtime":"../node_modules/react/jsx-runtime.js","_bundle_loader":"../node_modules/parcel/src/builtins/bundle-loader.js","./Details":[["Details.180b8e97.js","Details.js"],"Details.180b8e97.js.map","Details.js"],"./SearchParams":[["SearchParams.95c957bf.js","SearchParams.js"],"SearchParams.95c957bf.js.map","SearchParams.js"]}],"../node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -36056,5 +35536,29 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../node_modules/parcel/src/builtins/hmr-runtime.js","App.js"], null)
+},{}],"../node_modules/parcel/src/builtins/loaders/browser/js-loader.js":[function(require,module,exports) {
+module.exports = function loadJSBundle(bundle) {
+  return new Promise(function (resolve, reject) {
+    var script = document.createElement('script');
+    script.async = true;
+    script.type = 'text/javascript';
+    script.charset = 'utf-8';
+    script.src = bundle;
+
+    script.onerror = function (e) {
+      script.onerror = script.onload = null;
+      reject(e);
+    };
+
+    script.onload = function () {
+      script.onerror = script.onload = null;
+      resolve();
+    };
+
+    document.getElementsByTagName('head')[0].appendChild(script);
+  });
+};
+},{}],0:[function(require,module,exports) {
+var b=require("../node_modules/parcel/src/builtins/bundle-loader.js");b.register("js",require("../node_modules/parcel/src/builtins/loaders/browser/js-loader.js"));
+},{}]},{},["../node_modules/parcel/src/builtins/hmr-runtime.js",0,"App.js"], null)
 //# sourceMappingURL=/App.d36a57b6.js.map
